@@ -7,4 +7,4 @@ include_directories(.)
 
 add_executable(WordLadder
         Graph.cpp
-        Graph.h Test.cpp)
+        Graph.h Test.cpp ConstructGraph.h)

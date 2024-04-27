@@ -4,6 +4,7 @@
 #include <map>
 #include <stdexcept>
 #include <iostream>
+#include <list>
 
 template<typename T>
 class Graph {
@@ -12,7 +13,8 @@ class Graph {
      */
 private:
     std::vector<T> vertices;
-    std::multimap<T, T> neighbours;
+    std::vector<std::list<T>> adjacencyLists;
+    std::map<T, int> vertexIndexMap;
 
 public:
 
@@ -22,10 +24,11 @@ public:
          * in: name-the name of the vertex to be added
          * out: -
          */
-        int counter = std::count(vertices.begin(), vertices.end(), name);
-        if (counter == 0)
+        if (std::count(vertices.begin(), vertices.end(), name) == 0) {
             vertices.push_back(name);
-        else throw std::invalid_argument("The vertex is already in the graph!");
+            adjacencyLists.push_back(std::list<T>());
+            vertexIndexMap[name] = vertices.size() - 1;
+        } else throw std::invalid_argument("The vertex is already in the graph!");
     }
 
     void addEdge(T initialVertex, T terminalVertex) {
@@ -35,40 +38,49 @@ public:
          *     terminalVertex-the terminal vertex of the edge to be added
          * out: -
          */
-
-        int counterForInitial = std::count(vertices.begin(), vertices.end(), initialVertex);
-        int counterForTerminal = std::count(vertices.begin(), vertices.end(), terminalVertex);
-        if (counterForInitial != 1)
+        if (std::count(vertices.begin(), vertices.end(), initialVertex) != 1)
             throw std::invalid_argument("The initial vertex is not in the graph!");
-        if (counterForTerminal != 1)
+        if (std::count(vertices.begin(), vertices.end(), terminalVertex) != 1)
             throw std::invalid_argument("The terminal vertex is not in the graph!");
 
-        neighbours.insert(std::pair<T, T>(initialVertex, terminalVertex));
-        neighbours.insert(std::pair<T, T>(terminalVertex, initialVertex));
+        adjacencyLists[vertexIndexMap[initialVertex]].push_back(terminalVertex);
+        adjacencyLists[vertexIndexMap[terminalVertex]].push_back(initialVertex);
     }
 
-     std::vector<T> getNeighbours(T vertex) const {
+    std::list<T> getNeighbours(T vertex) const {
         /*
          * This function returns the neighbours of a vertex.
          * in: vertex-the vertex whose neighbours are to be returned
          * out: neighboursOfVertex-the neighbours of the vertex
          */
-        std::vector<T> neighboursOfVertex;
-        for (auto it = neighbours.begin(); it != neighbours.end(); it++)
-            if (it->first == vertex)
-                neighboursOfVertex.push_back(it->second);
-        return neighboursOfVertex;
+        if (std::count(vertices.begin(), vertices.end(), vertex) != 1)
+            throw std::invalid_argument("The vertex is not in the graph!");
+        return adjacencyLists[vertexIndexMap.at(vertex)];
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Graph<T> &graph) {
-        for (int i = 0; i < graph.vertices.size(); i++) {
-            std::cout << graph.vertices[i] << ": ";
-            std::vector<T> neighboursOfVertex = graph.getNeighbours(graph.vertices[i]);
-            for (int j = 0; j < neighboursOfVertex.size(); j++)
-                std:: cout << neighboursOfVertex[j] << ' ';
-            std::cout << '\n';
+        for (const auto &vertex: graph.vertices) {
+            os << vertex << ": ";
+            std::list<T> neighboursOfVertex = graph.getNeighbours(vertex);
+            for (const auto &neighbour: neighboursOfVertex) {
+                os << neighbour << ' ';
+            }
+            os << '\n';
         }
         return os;
+    }
+
+    int getNumberOfVertices() {
+        return vertices.size();
+    }
+
+    int getNumberOfEdges() {
+        int edges = 0;
+        for (const auto &vertex: vertices) {
+            std::list<T> neighboursOfVertex = getNeighbours(vertex);
+            edges += neighboursOfVertex.size();
+        }
+        return edges / 2;
     }
 
 };

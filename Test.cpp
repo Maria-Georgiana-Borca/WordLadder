@@ -1,12 +1,14 @@
 #include "Graph.h"
 #include <iostream>
+#include "ConstructGraph.h"
 
 int main() {
-    Graph<std::string> g;
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("v3");
-    g.addEdge("V1", "V2");
-    std::cout << g;
+    std::vector<std::string> words;
+    readWordsFromFile("/Users/mariaborca/Documents/GitHub/WordLadder/EnglishDictionary/2.txt", words);
+
+    std::map<std::string, std::vector<std::string>> wildcardsMap;
+
+    Graph<std::string> graph;
+    createGraph(graph, words);
     return 0;
 }
