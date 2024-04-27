@@ -1,0 +1,3 @@
+/Users/mariaborca/Documents/GitHub/WordLadder/cmake-build-debug/CMakeFiles/WordLadder.dir
+/Users/mariaborca/Documents/GitHub/WordLadder/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mariaborca/Documents/GitHub/WordLadder/cmake-build-debug/CMakeFiles/rebuild_cache.dir
