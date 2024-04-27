@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include <iostream>
+#include <fstream>
 #include "ConstructGraph.h"
 
 int main() {
