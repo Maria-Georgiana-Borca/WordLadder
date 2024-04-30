@@ -46,15 +46,22 @@ cmake_ninja_workdir = /Users/mariaborca/Documents/GitHub/WordLadder/cmake-build-
 
 build cmake_object_order_depends_target_WordLadder: phony || CMakeFiles/WordLadder.dir
 
-build CMakeFiles/WordLadder.dir/Graph.cpp.o: CXX_COMPILER__WordLadder_Debug /Users/mariaborca/Documents/GitHub/WordLadder/Graph.cpp || cmake_object_order_depends_target_WordLadder
-  DEP_FILE = CMakeFiles/WordLadder.dir/Graph.cpp.o.d
+build CMakeFiles/WordLadder.dir/Test.cpp.o: CXX_COMPILER__WordLadder_Debug /Users/mariaborca/Documents/GitHub/WordLadder/Test.cpp || cmake_object_order_depends_target_WordLadder
+  DEP_FILE = CMakeFiles/WordLadder.dir/Test.cpp.o.d
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++14
   INCLUDES = -I/Users/mariaborca/Documents/GitHub/WordLadder/.
   OBJECT_DIR = CMakeFiles/WordLadder.dir
   OBJECT_FILE_DIR = CMakeFiles/WordLadder.dir
 
-build CMakeFiles/WordLadder.dir/Test.cpp.o: CXX_COMPILER__WordLadder_Debug /Users/mariaborca/Documents/GitHub/WordLadder/Test.cpp || cmake_object_order_depends_target_WordLadder
-  DEP_FILE = CMakeFiles/WordLadder.dir/Test.cpp.o.d
+build CMakeFiles/WordLadder.dir/automaticMode.cpp.o: CXX_COMPILER__WordLadder_Debug /Users/mariaborca/Documents/GitHub/WordLadder/automaticMode.cpp || cmake_object_order_depends_target_WordLadder
+  DEP_FILE = CMakeFiles/WordLadder.dir/automaticMode.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/mariaborca/Documents/GitHub/WordLadder/.
+  OBJECT_DIR = CMakeFiles/WordLadder.dir
+  OBJECT_FILE_DIR = CMakeFiles/WordLadder.dir
+
+build CMakeFiles/WordLadder.dir/playMode.cpp.o: CXX_COMPILER__WordLadder_Debug /Users/mariaborca/Documents/GitHub/WordLadder/playMode.cpp || cmake_object_order_depends_target_WordLadder
+  DEP_FILE = CMakeFiles/WordLadder.dir/playMode.cpp.o.d
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++14
   INCLUDES = -I/Users/mariaborca/Documents/GitHub/WordLadder/.
   OBJECT_DIR = CMakeFiles/WordLadder.dir
@@ -68,7 +75,7 @@ build CMakeFiles/WordLadder.dir/Test.cpp.o: CXX_COMPILER__WordLadder_Debug /User
 #############################################
 # Link the executable WordLadder
 
-build WordLadder: CXX_EXECUTABLE_LINKER__WordLadder_Debug CMakeFiles/WordLadder.dir/Graph.cpp.o CMakeFiles/WordLadder.dir/Test.cpp.o
+build WordLadder: CXX_EXECUTABLE_LINKER__WordLadder_Debug CMakeFiles/WordLadder.dir/Test.cpp.o CMakeFiles/WordLadder.dir/automaticMode.cpp.o CMakeFiles/WordLadder.dir/playMode.cpp.o
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk
   OBJECT_DIR = CMakeFiles/WordLadder.dir
   POST_BUILD = :

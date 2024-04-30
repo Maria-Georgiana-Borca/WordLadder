@@ -4,7 +4,8 @@
 #include <map>
 #include <stdexcept>
 #include <iostream>
-#include <list>
+#include <queue>
+#include <set>
 
 template<typename T>
 class Graph {
@@ -13,22 +14,30 @@ class Graph {
      */
 private:
     std::vector<T> vertices;
-    std::vector<std::list<T>> adjacencyLists;
-    std::map<T, int> vertexIndexMap;
+    std::map<T, std::vector<T>>adjacencyList;
+    std::map<T, int> verticesIndex;
 
 public:
 
-    void addVertex(T name) {
+
+    Graph() = default;
+
+    void addVertex(T newVertex) {
         /*
          * This function adds a vertex to the graph.
          * in: name-the name of the vertex to be added
          * out: -
          */
-        if (std::count(vertices.begin(), vertices.end(), name) == 0) {
-            vertices.push_back(name);
-            adjacencyLists.push_back(std::list<T>());
-            vertexIndexMap[name] = vertices.size() - 1;
-        } else throw std::invalid_argument("The vertex is already in the graph!");
+        if (std::count(vertices.begin(), vertices.end(), newVertex) != 0)
+            throw std::invalid_argument("The vertex is already in the graph!");
+        vertices.push_back(newVertex);
+        verticesIndex[newVertex] = vertices.size() - 1;
+    }
+
+    int getPosition(T vertex) const {
+        if (std::count(vertices.begin(), vertices.end(), vertex) == 0)
+            throw std::invalid_argument("The vertex is not in the graph!");
+        return verticesIndex.at(vertex);
     }
 
     void addEdge(T initialVertex, T terminalVertex) {
@@ -43,25 +52,32 @@ public:
         if (std::count(vertices.begin(), vertices.end(), terminalVertex) != 1)
             throw std::invalid_argument("The terminal vertex is not in the graph!");
 
-        adjacencyLists[vertexIndexMap[initialVertex]].push_back(terminalVertex);
-        adjacencyLists[vertexIndexMap[terminalVertex]].push_back(initialVertex);
+        adjacencyList[initialVertex].push_back(terminalVertex);
+        adjacencyList[terminalVertex].push_back(initialVertex);
     }
 
-    std::list<T> getNeighbours(T vertex) const {
+    std::vector<T> getNeighbours(T vertex) {
         /*
          * This function returns the neighbours of a vertex.
          * in: vertex-the vertex whose neighbours are to be returned
          * out: neighboursOfVertex-the neighbours of the vertex
          */
-        if (std::count(vertices.begin(), vertices.end(), vertex) != 1)
+        if (std::count(vertices.begin(), vertices.end(), vertex) == 0)
             throw std::invalid_argument("The vertex is not in the graph!");
-        return adjacencyLists[vertexIndexMap.at(vertex)];
+
+        return adjacencyList.at(vertex);
+    }
+
+    bool checkVertex(const T& vertex) {
+        if (std::find(vertices.begin(), vertices.end(), vertex) != vertices.end())
+            return true;
+        return false;
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Graph<T> &graph) {
         for (const auto &vertex: graph.vertices) {
             os << vertex << ": ";
-            std::list<T> neighboursOfVertex = graph.getNeighbours(vertex);
+            std::vector<T> neighboursOfVertex = graph.getNeighbours(vertex);
             for (const auto &neighbour: neighboursOfVertex) {
                 os << neighbour << ' ';
             }
@@ -77,13 +93,43 @@ public:
     int getNumberOfEdges() {
         int edges = 0;
         for (const auto &vertex: vertices) {
-            std::list<T> neighboursOfVertex = getNeighbours(vertex);
+            std::vector<T> neighboursOfVertex = getNeighbours(vertex);
             edges += neighboursOfVertex.size();
         }
         return edges / 2;
     }
 
+    std::vector<T> BFS(T startNode, T finishNode) {
+        if (std::count(vertices.begin(), vertices.end(), startNode) == 0)
+            throw std::invalid_argument("The start vertex is not in the graph!");
+        if (std::count(vertices.begin(), vertices.end(), finishNode) == 0)
+            throw std::invalid_argument("The finish vertex is not in the graph!");
+        std::queue<T> queue;
+        std::set<T> visited;
+        std::map<T, T> previous;
+        queue.push(startNode);
+        previous[startNode] = startNode;
+        while (!queue.empty() and (visited.find(finishNode) == visited.end())) {
+            T current = queue.front();
+            queue.pop();
+            visited.insert(current);
+            std::vector<T> neighbours = getNeighbours(current);
+            for (auto node : neighbours)
+                if (visited.find(node) == visited.end()){
+                    queue.push(node);
+                    previous[node] = current;
+                }
+        }
+        std::vector<T> path;
+        T at = finishNode;
+        while (at != startNode) {
+            path.push_back(at);
+            at = previous[at];
+        }
+        path.push_back(startNode);
+        std::reverse(path.begin(), path.end());
+        return path;
+    }
+
 };
-
-
 #endif

@@ -1,15 +1,18 @@
 #include "Graph.h"
 #include <iostream>
 #include <fstream>
-#include "ConstructGraph.h"
+#include "dictionary.h"
+#include "automaticMode.h"
+#include "playMode.h"
 
 int main() {
-    std::vector<std::string> words;
-    readWordsFromFile("/Users/mariaborca/Documents/GitHub/WordLadder/EnglishDictionary/2.txt", words);
+    playMode();
 
-    std::map<std::string, std::vector<std::string>> wildcardsMap;
-
-    Graph<std::string> graph;
-    createGraph(graph, words);
+//    Dictionary dictionary;
+//    dictionary.createDictionary("/Users/mariaborca/Documents/GitHub/WordLadder/EnglishDictionary/3.txt");
+//
+//    Graph<std::string> graph;
+//    dictionary.createGraph(graph);
+//    std::cout << graph.getNumberOfVertices();
     return 0;
 }
