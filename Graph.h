@@ -100,34 +100,74 @@ public:
     }
 
     std::vector<T> BFS(T startNode, T finishNode) {
-        if (std::count(vertices.begin(), vertices.end(), startNode) == 0)
-            throw std::invalid_argument("The start vertex is not in the graph!");
-        if (std::count(vertices.begin(), vertices.end(), finishNode) == 0)
-            throw std::invalid_argument("The finish vertex is not in the graph!");
-        std::queue<T> queue;
-        std::set<T> visited;
-        std::map<T, T> previous;
-        queue.push(startNode);
-        previous[startNode] = startNode;
-        while (!queue.empty() and (visited.find(finishNode) == visited.end())) {
-            T current = queue.front();
-            queue.pop();
-            visited.insert(current);
-            std::vector<T> neighbours = getNeighbours(current);
-            for (auto node : neighbours)
-                if (visited.find(node) == visited.end()){
-                    queue.push(node);
-                    previous[node] = current;
+//        if (std::count(vertices.begin(), vertices.end(), startNode) == 0)
+//            throw std::invalid_argument("The start vertex is not in the graph!");
+//        if (std::count(vertices.begin(), vertices.end(), finishNode) == 0)
+//            throw std::invalid_argument("The finish vertex is not in the graph!");
+//        std::queue<T> queue;
+//        std::set<T> visited;
+//        std::map<T, T> previous;
+//        queue.push(startNode);
+//        previous[startNode] = startNode;
+//        while (!queue.empty() and (visited.find(finishNode) == visited.end())) {
+//            T current = queue.front();
+//            queue.pop();
+//            visited.insert(current);
+//            std::vector<T> neighbours = getNeighbours(current);
+//            for (auto node : neighbours)
+//                if (visited.find(node) == visited.end()){
+//                    queue.push(node);
+//                    previous[node] = current;
+//                }
+//        }
+//        std::vector<T> path;
+//        T at = finishNode;
+//        while (at != startNode) {
+//            path.push_back(at);
+//            at = previous[at];
+//        }
+//        path.push_back(startNode);
+//        std::reverse(path.begin(), path.end());
+//        return path;
+
+
+        if (std::find(vertices.begin(), vertices.end(), startNode) == vertices.end())
+            throw std::runtime_error("starting word doesn't exist!\n");
+        if(std::find(vertices.begin(), vertices.end(), finishNode) == vertices.end())
+            throw std::runtime_error("ending word doesn't exist!\n");
+
+        std::vector<bool>visited(vertices.size(), false);
+        std::vector<int>parent(vertices.size());
+        std::queue<T>bfsQueue;
+
+        visited[verticesIndex[startNode]] = true;
+        parent[verticesIndex[startNode]] = -1;
+        bfsQueue.push(startNode);
+
+        bool found = false;
+        while(!bfsQueue.empty() && !found) {
+            T currentNode = bfsQueue.front();
+            bfsQueue.pop();
+
+            for (auto& neighbor: getNeighbours(currentNode))
+                if (!visited[verticesIndex[neighbor]]) {
+                    visited[verticesIndex[neighbor]] = true;
+                    parent[verticesIndex[neighbor]] = verticesIndex[currentNode];
+                    bfsQueue.push(neighbor);
+                    if (neighbor == finishNode) {
+                        found = true;
+                    }
                 }
         }
-        std::vector<T> path;
-        T at = finishNode;
-        while (at != startNode) {
-            path.push_back(at);
-            at = previous[at];
+        std::vector<std::string> path;
+        if (found == true) {
+            int current = verticesIndex[finishNode];
+            while(current != -1) {
+                path.push_back(vertices[current]);
+                current = parent[current];
+            }
+            std::reverse(path.begin(), path.end());
         }
-        path.push_back(startNode);
-        std::reverse(path.begin(), path.end());
         return path;
     }
 

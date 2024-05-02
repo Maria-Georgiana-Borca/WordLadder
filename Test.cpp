@@ -1,18 +1,18 @@
-#include "Graph.h"
-#include <iostream>
-#include <fstream>
-#include "dictionary.h"
-#include "automaticMode.h"
-#include "playMode.h"
-
-int main() {
-    playMode();
-
-//    Dictionary dictionary;
-//    dictionary.createDictionary("/Users/mariaborca/Documents/GitHub/WordLadder/EnglishDictionary/3.txt");
+//#include "Graph.h"
+//#include <iostream>
+//#include <fstream>
+//#include "dictionary.h"
+//#include "automaticMode.h"
+//#include "playMode.h"
 //
-//    Graph<std::string> graph;
-//    dictionary.createGraph(graph);
-//    std::cout << graph.getNumberOfVertices();
-    return 0;
-}
+//int main() {
+//    //play();
+//
+////    Dictionary dictionary;
+////    dictionary.createDictionary("/Users/mariaborca/Documents/GitHub/WordLadder/EnglishDictionary/3.txt");
+////
+////    Graph<std::string> graph;
+////    dictionary.createGraph(graph);
+////    std::cout << graph.getNeighbours("aba").size();
+//    return 0;
+//}

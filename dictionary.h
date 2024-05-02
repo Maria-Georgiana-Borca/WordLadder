@@ -22,6 +22,7 @@ public:
 
         std::string word;
         while (getline(file, word)) {
+            word.pop_back();
             dictionary.push_back(word);
             for (int i = 0; i < word.size(); i++) {
                 std::string wildcard = word;

@@ -1,7 +1,7 @@
 #include "dictionary.h"
 #include "Graph.h"
 
-void play() {
+void autoMode() {
     std::string startWord;
     std::string finishWord;
 
@@ -27,7 +27,7 @@ void play() {
     Graph<std::string> graph;
     dictionary.createGraph(graph);
 
-    std::vector<std::string> path = graph.BFS(dictionary.getDictionary()[1209], dictionary.getDictionary()[1727]);
+    std::vector<std::string> path = graph.BFS(startWord, finishWord);
 
     if (path.empty())
         throw std::runtime_error("There is no way of obtaining" + finishWord + "from " + startWord +'.');
